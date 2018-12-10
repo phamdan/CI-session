@@ -10,6 +10,7 @@ public class Enemy extends GameObject {
     public boolean status=true;
     public Enemy(){
         super();
+        int a;
         BufferedImage image= SpriteUtils.loadImage("assets/images/enemies/bullets/blue.png");
         this.renderer=new SingleImageRenderer(image);
         //BufferedImage image= SpriteUtils.loadImage("assets/images/enemies/bullets/blue.png");
