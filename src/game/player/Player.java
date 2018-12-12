@@ -1,9 +1,6 @@
 package game.player;
 
-import game.GameCanvas;
-import game.GameObject;
-import game.GameWindow;
-import game.Settings;
+import game.*;
 import game.renderer.AnimationRenderer;
 import tklibs.Mathx;
 import tklibs.SpriteUtils;
@@ -12,10 +9,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Player extends GameObject {
+        FrameCounter fireCounter;
     public Player(){
         super();
         this.position.set(200, 300);
         this.createRenderer();
+        this.fireCounter=new FrameCounter(20);
     }
 
     private void createRenderer() {
@@ -31,34 +30,44 @@ public class Player extends GameObject {
         this.renderer = new PlayerRenderer("Player", images);
     }
 
-    int count = 0;
     @Override
     public void run() {
-        if(GameWindow.isUpPress) {
-            this.position.addThis(0, -10);
-        }
-        if(GameWindow.isDownPress) {
-            this.position.addThis(0, 10);
-        }
-        if(GameWindow.isLeftPress) {
-            this.position.addThis(-10, 0);
-        }
-        if(GameWindow.isRightPress) {
-            this.position.addThis(10, 0);
-        }
+        super.run();
+        this.move();
         this.limitPlayerPosition();
-        count++;
-        if(count > 20) {
+        if(fireCounter.run()) {
             this.fire();
         }
     }
-
+    private  void move(){
+        int vx=0;
+        int vy=0;
+        int speed=10;
+        if(GameWindow.isUpPress) {
+            //this.position.addThis(0, -10);
+            vy--;
+        }
+        if(GameWindow.isDownPress) {
+            //this.position.addThis(0, 10);
+            vy++;
+        }
+        if(GameWindow.isLeftPress) {
+            //this.position.addThis(-10, 0);
+            vx--;
+        }
+        if(GameWindow.isRightPress) {
+            //this.position.addThis(10, 0);
+            vx++;
+        }
+        this.velocity.set(vx,vy);
+        this.velocity.setLength(speed);
+    }
     private void fire() {
         if(GameWindow.isFirePress) {
             PlayerBullet bullet = new PlayerBullet();
             bullet.position.set(this.position.x, this.position.y);
             GameObject.addGameObject(bullet);
-            count = 0;
+            this.fireCounter.reset();
         }
     }
 

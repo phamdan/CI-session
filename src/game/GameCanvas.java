@@ -1,5 +1,6 @@
 package game;
 
+import enemy.Enemy;
 import game.player.Player;
 import game.player.PlayerBullet;
 import game.renderer.TextRenderer;
@@ -10,11 +11,12 @@ import javax.swing.*;
 
 public class GameCanvas extends JPanel{
     public GameCanvas() {
-//        this.background = new Background();
-        GameObject.addGameObject(new Background());
-//        this.player = new Player();
-        GameObject.addGameObject(new Player());
-        GameObject.addGameObject(new Enemy());
+        //GameObject.addGameObject(new Background());
+        GameObject.createGameObject(Background.class);
+        //GameObject.addGameObject(new Player());
+        GameObject.createGameObject(Player.class);
+        //GameObject.addGameObject(new Enemy());
+        GameObject.createGameObject(Enemy.class);
     }
 
     @Override

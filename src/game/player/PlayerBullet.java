@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 public class PlayerBullet extends GameObject {
     public PlayerBullet() {
+        super();
         this.createRenderer();
+        this.velocity.set(0,-3);
     }
 
     private void createRenderer() {
@@ -19,10 +21,11 @@ public class PlayerBullet extends GameObject {
         images.add(SpriteUtils.loadImage("assets/images/player-bullets/a/2.png"));
         images.add(SpriteUtils.loadImage("assets/images/player-bullets/a/3.png"));
         this.renderer = new AnimationRenderer(images);
+
     }
 
     @Override
     public void run() {
-        this.position.addThis(0, -3);
+        super.run();
     }
 }
