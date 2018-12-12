@@ -23,16 +23,10 @@ public class Rectangle {
      */
     public boolean intersects(Rectangle other) {
         // TODO: 1. Triển khai phần code kiểm tra va chạm giữa 2 hình chữ nhật ở đây
-        int distSubX = (int)((this.position.x + (this.width/2)) - (other.position.x + (other.width)/2));
-        if(distSubX < 0) distSubX = distSubX * (-1);
-
+        int distSubX = Math.abs((int)((this.position.x + (this.width/2)) - (other.position.x + (other.width)/2)));
         int distW = (this.width + other.width)/2;
-
-        int distSubY =(int)((this.position.y + (this.height/2)) - (other.position.y + (other.height)/2));
-        if(distSubY < 0) distSubY = distSubY * (-1);
-
+        int distSubY =Math.abs((int)((this.position.y + (this.height/2)) - (other.position.y + (other.height)/2)));
         int distH = (this.height + other.height)/2;
-
         if(distSubX <= distW && distSubY <= distH)
             return true;
         return false;
