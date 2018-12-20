@@ -1,5 +1,6 @@
 package game.player;
 
+import enemy.Enemy;
 import game.*;
 import game.renderer.AnimationRenderer;
 import tklibs.Mathx;
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Player extends GameObject {
-        FrameCounter fireCounter;
+    FrameCounter fireCounter;
     public Player(){
         super();
         this.position.set(200, 300);
@@ -26,7 +27,7 @@ public class Player extends GameObject {
         images.add(SpriteUtils.loadImage("assets/images/players/straight/4.png"));
         images.add(SpriteUtils.loadImage("assets/images/players/straight/5.png"));
         images.add(SpriteUtils.loadImage("assets/images/players/straight/6.png"));
-//        this.renderer = new AnimationRenderer(images);
+        //this.renderer = new AnimationRenderer(images);
         this.renderer = new PlayerRenderer("Player", images);
     }
 
@@ -44,7 +45,6 @@ public class Player extends GameObject {
         int vy=0;
         int speed=10;
         if(GameWindow.isUpPress) {
-            //this.position.addThis(0, -10);
             vy--;
         }
         if(GameWindow.isDownPress) {
@@ -64,9 +64,8 @@ public class Player extends GameObject {
     }
     private void fire() {
         if(GameWindow.isFirePress) {
-            PlayerBullet bullet = new PlayerBullet();
+            PlayerBullet bullet = GameObject.recycle(PlayerBullet.class);
             bullet.position.set(this.position.x, this.position.y);
-            GameObject.addGameObject(bullet);
             this.fireCounter.reset();
         }
     }
@@ -83,7 +82,6 @@ public class Player extends GameObject {
         float y = (float)Mathx.clamp(this.position.y
                 , halfHeight
                 , Settings.SCREEN_HEIGHT - halfHeight);
-
         this.position.set(x, y);
     }
 }

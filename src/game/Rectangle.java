@@ -14,7 +14,18 @@ public class Rectangle {
         this.width = width;
         this.height = height;
     }
-
+    public float top(){
+        return this.position.y;
+    }
+    public float bot(){
+        return this.top()+this.height;
+    }
+    public float left(){
+        return this.position.x;
+    }
+    public float right(){
+        return this.left()+this.width;
+    }
     /**
      * @param other
      * @return true: nếu hình chữ nhật được gọi (this) có phần
@@ -23,13 +34,17 @@ public class Rectangle {
      */
     public boolean intersects(Rectangle other) {
         // TODO: 1. Triển khai phần code kiểm tra va chạm giữa 2 hình chữ nhật ở đây
-        int distSubX = Math.abs((int)((this.position.x + (this.width/2)) - (other.position.x + (other.width)/2)));
-        int distW = (this.width + other.width)/2;
-        int distSubY =Math.abs((int)((this.position.y + (this.height/2)) - (other.position.y + (other.height)/2)));
-        int distH = (this.height + other.height)/2;
-        if(distSubX <= distW && distSubY <= distH)
-            return true;
-        return false;
+//        int distSubX = Math.abs((int)((this.position.x + (this.width/2)) - (other.position.x + (other.width)/2)));
+//        int distW = (this.width + other.width)/2;
+//        int distSubY =Math.abs((int)((this.position.y + (this.height/2)) - (other.position.y + (other.height)/2)));
+//        int distH = (this.height + other.height)/2;
+//        if(distSubX <= distW && distSubY <= distH)
+//            return true;
+//        return false;
+        return this.bot()>=other.top()
+                && this.top()<= other.bot()
+                && this.left()<=other.right()
+                && this.right()>=other.left();
     }
 
     //TODO: 2. Chạy hàm main này để test

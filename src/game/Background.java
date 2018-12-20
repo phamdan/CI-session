@@ -20,11 +20,11 @@ public class Background extends GameObject {
     public void run() {
 //        if(this.position.y < 0) {
 //            // this.position.y += 10 // thay doi Vector ko o Vector
-//            this.position.addThis(0, 1);
-//        } else {
-//            // this.y = 0
-//            this.position.set(this.position.x, 0);
-//        }
+////            this.position.addThis(0, 1);
+////        } else {
+////            // this.y = 0
+////            this.position.set(this.position.x, 0);
+////        }
         super.run();
         if(this.position.y>0){
             this.position.set(0,0);

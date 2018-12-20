@@ -2,21 +2,20 @@ package game;
 
 import enemy.Enemy;
 import game.player.Player;
-import game.player.PlayerBullet;
-import game.renderer.TextRenderer;
 
 import java.awt.*;
-import java.util.ArrayList;
 import javax.swing.*;
 
 public class GameCanvas extends JPanel{
     public GameCanvas() {
         //GameObject.addGameObject(new Background());
-        GameObject.createGameObject(Background.class);
+        GameObject.recycle(Background.class);
         //GameObject.addGameObject(new Player());
-        GameObject.createGameObject(Player.class);
+        GameObject.recycle(Player.class);
+        //System.out.println(GameObject.recycle(Player.class).getClass());
         //GameObject.addGameObject(new Enemy());
-        GameObject.createGameObject(Enemy.class);
+        GameObject.recycle(Enemy.class);
+        //GameObject.recycle()
     }
 
     @Override
