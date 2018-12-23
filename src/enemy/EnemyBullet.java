@@ -1,6 +1,7 @@
 package enemy;
 
 import game.GameObject;
+import game.GameObjectPhysics;
 import game.player.Player;
 import game.renderer.AnimationRenderer;
 import game.renderer.SingleImageRenderer;
@@ -11,13 +12,14 @@ import tklibs.SpriteUtils;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class EnemyBullet extends GameObject implements Physics {
-    BoxCollider boxCollider;
+public class EnemyBullet extends GameObjectPhysics {
+    int damage;
     public EnemyBullet(){
         super();
         this.createRenderer();
         this.velocity.set(0,2);
         this.boxCollider=new BoxCollider(this.position,this.anchor,20,20);
+        this.damage=1;
     }
     private void createRenderer() {
         BufferedImage images ;
@@ -38,12 +40,7 @@ public class EnemyBullet extends GameObject implements Physics {
         Player player=GameObject.findIntersected(Player.class,this.boxCollider);
         if(player!=null){
             this.destroy();
-            player.destroy();
+            player.takeDamage(this.damage);
         }
-    }
-
-    @Override
-    public BoxCollider getBoxCollider() {
-        return null;
     }
 }

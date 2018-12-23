@@ -57,6 +57,9 @@ public class GameObject {
             return null;
         }
     }
+    public static void clearAll(){
+        gameObjects.clear();
+    }
 
     public static void runAll() {
         for (int i = 0; i < gameObjects.size(); i++) {

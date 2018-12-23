@@ -2,6 +2,7 @@ package enemy;
 
 import game.FrameCounter;
 import game.GameObject;
+import game.GameObjectPhysics;
 import game.Settings;
 import game.player.PlayerBullet;
 import game.renderer.AnimationRenderer;
@@ -12,8 +13,7 @@ import tklibs.SpriteUtils;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Enemy extends GameObject implements Physics {
-    BoxCollider boxCollider;
+public class Enemy extends GameObjectPhysics {
     FrameCounter fireCounter;
     public Enemy (){
         super();
@@ -37,8 +37,16 @@ public class Enemy extends GameObject implements Physics {
     @Override
     public void run() {
         super.run();
+        this.move();
+        if(fireCounter.run()) {
+            this.fire();
+            //System.out.println(fireCounter.count);
+        }
+    }
+
+    private void move() {
         if(this.position.x> Settings.BACKGROUND_WIDTH-14
-        &&this.velocity.x>0){
+                &&this.velocity.x>0){
             this.velocity.set(-3,this.velocity.y);
         }
         if(this.position.x<14&&this.velocity.x<0){
@@ -51,19 +59,19 @@ public class Enemy extends GameObject implements Physics {
         if(this.position.y<14&&this.velocity.y<0){
             this.velocity.set(this.velocity.x,1);
         }
-        if(fireCounter.run()) {
-            this.fire();
-        }
     }
 
     private void fire() {
-        EnemyBullet enemyBullet = GameObject.recycle(EnemyBullet.class);
-        enemyBullet.position.set(this.position.x, this.position.y);
-        this.fireCounter.reset();
+        if(fireCounter.run()) {
+            EnemyBullet enemyBullet = GameObject.recycle(EnemyBullet.class);
+            enemyBullet.position.set(this.position);
+            this.fireCounter.reset();
+        }
     }
-
     @Override
-    public BoxCollider getBoxCollider() {
-        return this.boxCollider;
+    public void destroy(){
+        super.destroy();
+        EnemyExplosion explosion= GameObject.recycle(EnemyExplosion.class);
+        explosion.position.set(this.position);
     }
 }

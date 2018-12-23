@@ -3,19 +3,30 @@ package game.player;
 import enemy.Enemy;
 import game.*;
 import game.renderer.AnimationRenderer;
+import physics.BoxCollider;
+import physics.Physics;
+import scene.SceneGameOver;
+import scene.SceneManager;
 import tklibs.Mathx;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Player extends GameObject {
+public class Player extends GameObjectPhysics{
     FrameCounter fireCounter;
+    int hp;
+    boolean immune;//thuộc tính cho con player nháy nháy lúc trúc đạn
+    FrameCounter immuneCounter;
     public Player(){
         super();
         this.position.set(200, 300);
         this.createRenderer();
         this.fireCounter=new FrameCounter(20);
+        this.boxCollider=new BoxCollider(this.position,this.anchor,20,30);
+        this.hp=3;
+        this.immune=false;// player chua bi trung dan
+        this.immuneCounter=new FrameCounter(90);// 90ms tuong duong vs 1s30
     }
 
     private void createRenderer() {
@@ -39,7 +50,15 @@ public class Player extends GameObject {
         if(fireCounter.run()) {
             this.fire();
         }
+        this.checkImmune();
     }
+
+    private void checkImmune() {
+        if(this.immune&&this.immuneCounter.run()){
+            this.immune=false;
+        }
+    }
+
     private  void move(){
         int vx=0;
         int vy=0;
@@ -83,5 +102,17 @@ public class Player extends GameObject {
                 , halfHeight
                 , Settings.SCREEN_HEIGHT - halfHeight);
         this.position.set(x, y);
+    }
+    public  void takeDamage(int damage){
+        if(this.immune) return;
+
+        this.hp-=damage;
+        this.immune=true; //sau khi bị nhận damage
+        this.immuneCounter.reset();
+        if(this.hp<=0){
+            this.hp=0;
+            this.destroy();
+            SceneManager.signNewScene(new SceneGameOver());
+        }
     }
 }

@@ -1,7 +1,10 @@
 package game;
 
 import enemy.Enemy;
+import enemy.EnemySummoner;
 import game.player.Player;
+import scene.SceneManager;
+import scene.SceneWelcome;
 
 import java.awt.*;
 import javax.swing.*;
@@ -9,13 +12,14 @@ import javax.swing.*;
 public class GameCanvas extends JPanel{
     public GameCanvas() {
         //GameObject.addGameObject(new Background());
-        GameObject.recycle(Background.class);
+        //GameObject.recycle(Background.class);
         //GameObject.addGameObject(new Player());
-        GameObject.recycle(Player.class);
+        //GameObject.recycle(Player.class);
         //System.out.println(GameObject.recycle(Player.class).getClass());
         //GameObject.addGameObject(new Enemy());
-        GameObject.recycle(Enemy.class);
+        //GameObject.recycle(EnemySummoner.class);
         //GameObject.recycle()
+        SceneManager.signNewScene(new SceneWelcome());
     }
 
     @Override
