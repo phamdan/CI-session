@@ -35,7 +35,7 @@ public class AnimationRenderer extends Renderer {
 
         if(this.nextImageCounter.run()) {//true or flase
             this.currentImageIndex++;
-            if(this.isOnce&&this.currentImageIndex>=this.images.size()){
+            if(this.isOnce&& this.currentImageIndex>=this.images.size()){
                 master.destroy();
             }
             if(this.currentImageIndex >= this.images.size()) {

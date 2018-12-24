@@ -26,7 +26,7 @@ public class Player extends GameObjectPhysics{
         this.boxCollider=new BoxCollider(this.position,this.anchor,20,30);
         this.hp=3;
         this.immune=false;// player chua bi trung dan
-        this.immuneCounter=new FrameCounter(90);// 90ms tuong duong vs 1s30
+        this.immuneCounter=new FrameCounter(90);
     }
 
     private void createRenderer() {
@@ -105,14 +105,19 @@ public class Player extends GameObjectPhysics{
     }
     public  void takeDamage(int damage){
         if(this.immune) return;
-
         this.hp-=damage;
         this.immune=true; //sau khi bị nhận damage
         this.immuneCounter.reset();
         if(this.hp<=0){
             this.hp=0;
             this.destroy();
-            SceneManager.signNewScene(new SceneGameOver());
+            //SceneManager.signNewScene(new SceneGameOver());
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        SceneManager.signNewScene(new SceneGameOver());
     }
 }

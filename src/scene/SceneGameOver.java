@@ -1,6 +1,7 @@
 package scene;
 
 import game.GameObject;
+import game.GameWindow;
 
 public class SceneGameOver extends Scene {
 
@@ -12,5 +13,6 @@ public class SceneGameOver extends Scene {
     @Override
     public void clear() {
         GameObject.clearAll();
+        GameWindow.isAnyKeyPress=false;
     }
 }

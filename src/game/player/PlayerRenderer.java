@@ -23,9 +23,9 @@ public class PlayerRenderer extends Renderer {
 
     @Override
     public void render(Graphics g, GameObject master) {
-//        this.textRenderer.render(g, master);
         Player player=(Player) master;
         if(player.immune){
+            System.out.println(player.immune);
             if(this.blind){
                 this.animation.render(g,master);
             }
