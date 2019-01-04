@@ -1,8 +1,5 @@
 package game;
 
-import enemy.Enemy;
-import enemy.EnemySummoner;
-import game.player.Player;
 import scene.SceneManager;
 import scene.SceneWelcome;
 

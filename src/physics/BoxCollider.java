@@ -5,8 +5,8 @@ import game.Vector2D;
 
 public class BoxCollider {
     Vector2D position; // vị trí hình chữ nhật (góc trên bên trái)
-    int width; // chiều rộng hcn
-    int height; // chiều cao hcn
+    public int width; // chiều rộng hcn
+    public int height; // chiều cao hcn
     Vector2D anchor;
     public BoxCollider() {
         this(new Vector2D(),new Vector2D(), 1, 1);
