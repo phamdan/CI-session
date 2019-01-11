@@ -120,4 +120,12 @@ public class Vector2D {
         System.out.println(this);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Vector2D) {
+            Vector2D other = (Vector2D) obj;
+            return other.x == this.x && other.y == this.y;
+        }
+        return false;
+    }
 }

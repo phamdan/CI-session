@@ -1,15 +1,10 @@
 package game.background;
 
 import game.GameObject;
-import game.Player;
-import game.Settings;
 import game.renderer.SingleImageRenderer;
 import tklibs.SpriteUtils;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.ArrayList;
 
 public class Background extends GameObject {
     public  Background(){

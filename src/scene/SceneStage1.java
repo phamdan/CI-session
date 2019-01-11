@@ -1,16 +1,16 @@
 package scene;
 
 import game.GameObject;
-import game.Player;
+import game.bom.ItemBomb;
+import game.enemy.Enemy1;
+import game.player.Player;
 import game.background.Background;
+import game.bom.ItemBomBangSize;
 import game.box.BoxStone;
 import game.box.BoxWood;
-import game.renderer.SingleImageRenderer;
-import tklibs.SpriteUtils;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class SceneStage1 extends Scene {
     @Override
@@ -38,24 +38,53 @@ public class SceneStage1 extends Scene {
                 char c = temp.charAt(j);
                 switch (c) {
                     case '#': {
-                        GameObject g = GameObject.recycle(BoxStone.class);
+                        BoxStone g = GameObject.recycle(BoxStone.class);
                         g.position.x = j * 45;
                         g.position.y = i * 45;
                         g.anchor.set(0, 0);
                         break;
                     }
-                    case '*': {
-                        GameObject k = GameObject.recycle(BoxWood.class);
+                    case 'p':{
+                        Player k = GameObject.recycle(Player.class);
                         k.position.x = j * 45;
                         k.position.y = i * 45;
                         k.anchor.set(0, 0);
                         break;
                     }
-                    case 'p':{
-                        GameObject k = GameObject.recycle(Player.class);
+                    case '*': {
+                        BoxWood k = GameObject.recycle(BoxWood.class);
                         k.position.x = j * 45;
                         k.position.y = i * 45;
                         k.anchor.set(0, 0);
+                        break;
+                    }
+                    case 's':{
+                        ItemBomBangSize k = GameObject.recycle(ItemBomBangSize.class);
+                        k.position.x = j * 45;
+                        k.position.y = i * 45;
+                        k.anchor.set(0, 0);
+                        BoxWood g = GameObject.recycle(BoxWood.class);
+                        g.position.x = j * 45;
+                        g.position.y = i * 45;
+                        g.anchor.set(0, 0);
+                        break;
+                    }
+                    case 'b':{
+                        ItemBomb k = GameObject.recycle(ItemBomb.class);
+                        k.position.x = j * 45;
+                        k.position.y = i * 45;
+                        k.anchor.set(0, 0);
+                        BoxWood g = GameObject.recycle(BoxWood.class);
+                        g.position.x = j * 45;
+                        g.position.y = i * 45;
+                        g.anchor.set(0, 0);
+                        break;
+                    }
+                    case 'e': {
+                        Enemy1 g = GameObject.recycle(Enemy1.class);
+                        g.position.x = j * 45;
+                        g.position.y = i * 45;
+                        g.anchor.set(0, 0);
                         break;
                     }
                     default:
@@ -68,4 +97,5 @@ public class SceneStage1 extends Scene {
     public void clear(){
         GameObject.clearAll();
     }
+
 }

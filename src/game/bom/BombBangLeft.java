@@ -1,8 +1,11 @@
 package game.bom;
 
 import game.FrameCounter;
+import game.GameObject;
 import game.GameObjectPhysics;
+import game.box.BoxWood;
 import game.renderer.SingleImageRenderer;
+import physics.BoxCollider;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
@@ -13,7 +16,8 @@ public class BombBangLeft extends GameObjectPhysics {
     public BombBangLeft(){
         super();
         this.createRenderer();
-        this.limitTime=new FrameCounter(60);
+        this.limitTime=new FrameCounter(10);
+        this.boxCollider=new BoxCollider(this.position,this.anchor,60,30);
     }
 
     private void createRenderer() {
@@ -28,6 +32,13 @@ public class BombBangLeft extends GameObjectPhysics {
         if(limitTime.run()){
             this.destroy();
             limitTime.reset();
+        }
+        this.checkIntersectWithBoxWood();
+    }
+    private void checkIntersectWithBoxWood() {
+        BoxWood boxWood= GameObject.findIntersected(BoxWood.class,this.boxCollider);
+        if(boxWood!=null){
+            boxWood.destroy();
         }
     }
 }

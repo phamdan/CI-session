@@ -1,5 +1,6 @@
 package game;
 
+import game.box.BoxWood;
 import game.renderer.Renderer;
 import physics.BoxCollider;
 import physics.Physics;
@@ -16,7 +17,6 @@ public class GameObject {
     public static void addGameObject(GameObject object) {
         //System.out.println(object.getClass());
         gameObjects.add(object);
-
     }
 
     public static <E extends GameObject> E findInactive(Class<E> clazz){
@@ -52,6 +52,16 @@ public class GameObject {
             }
         }
         return null;
+    }
+    public static <E extends GameObject> void findPositionBox(Class<E> clazz){
+        for(int i=0;i<gameObjects.size();i++){
+            GameObject object=gameObjects.get(i);
+            if(clazz.isAssignableFrom(object.getClass())
+                    &&object.active
+            ){
+                System.out.println(object.position.x+":"+object.position.y);
+            }
+        }
     }
     public static <E extends GameObject> E recycle(Class<E> clazz){
         E find= findInactive(clazz);
