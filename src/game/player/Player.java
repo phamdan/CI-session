@@ -7,25 +7,30 @@ import game.box.BoxWood;
 import game.enemy.Enemy1;
 import game.renderer.SingleImageRenderer;
 import physics.BoxCollider;
+import tklibs.AudioUtils;
 import tklibs.SpriteUtils;
 
+import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 
 public class Player extends GameObjectPhysics {
     public static int bomSize;
+    public  static int quantityBomb;
     int direction; // 1 = top, 2 = right, 3 = bot, 4 = left, 0 = stay
     FrameCounter moveCounter;
     FrameCounter nextBom;
-    int bomNext;
+    Clip fire;
+    Clip dieThis;
+    Clip item;
     public Player(){
         super();
         this.createRenderer();
         this.direction = Settings.STAY;
         this.moveCounter = new FrameCounter(10);
-        this.nextBom=new FrameCounter(100);//nếu đặt 2 bomm thì 30 là đẹpds
-        this.bomNext=100;
         this.boxCollider=new BoxCollider(this.position,this.anchor,40,40);
+        this.nextBom=new FrameCounter(12);
         this.bomSize=1;
+        quantityBomb=1;
     }
 
     private void createRenderer() {
@@ -42,20 +47,42 @@ public class Player extends GameObjectPhysics {
         this.checkBomBangSize();
         this.checkBomItem();
         this.checkPlayerDie();
-        if(this.nextBom.run()) {
+        if(this.nextBom.run()){
             this.bom();
         }
     }
-
+    private void bom() {
+        if(GameWindow.isFirePress){
+            Bom bom=GameObject.findCoincide(Bom.class,this.position);
+            if(bom==null&&quantityBomb>0) {
+                this.fire = AudioUtils.loadSound("assets/music/newbomb.wav");
+                AudioUtils.replay(this.fire);
+                Bom bom1 = GameObject.recycle(Bom.class);
+                bom1.position.set(this.position);
+                bom1.anchor.set(0, 0);
+                if (this.quantityBomb > 0) this.quantityBomb--;
+            }
+            this.nextBom.reset();
+        }
+    }
     private void checkBomItem() {
         ItemBomb itemBomb=GameObject.findIntersected(ItemBomb.class,this.boxCollider);
         if(itemBomb!=null){
+            this.item=AudioUtils.loadSound("assets/music/item.wav");
+            AudioUtils.replay(this.item);
             itemBomb.destroy();
-            this.bomNext-=40;
-            this.nextBom=new FrameCounter(this.bomNext);
+            quantityBomb++;
         }
     }
-
+    private void checkBomBangSize() {
+        ItemBomBangSize itemBomBangSize = GameObject.findIntersected(ItemBomBangSize.class,this.boxCollider);
+        if(itemBomBangSize !=null){
+            this.item=AudioUtils.loadSound("assets/music/item.wav");
+            AudioUtils.replay(this.item);
+            itemBomBangSize.destroy();
+            this.bomSize++;
+        }
+    }
     private void checkPlayerDie() {
         BombBangRight bombBangRight= GameObject.findIntersected(BombBangRight.class,this.boxCollider);
         BombBangLeft bombBangLeft= GameObject.findIntersected(BombBangLeft.class,this.boxCollider);
@@ -64,26 +91,11 @@ public class Player extends GameObjectPhysics {
         Enemy1 enemy1=GameObject.findIntersected(Enemy1.class,this.boxCollider);
         if(bombBangRight!=null||bombBangLeft!=null||bombBangDown!=null||bombBangUp!=null||enemy1!=null){
             this.destroy();
+            this.dieThis=AudioUtils.loadSound("assets/music/bomber_die.wav");
+            AudioUtils.replay(this.dieThis);
             PlayerDie playerDie=GameObject.recycle(PlayerDie.class);
             playerDie.position.set(this.position);
             playerDie.anchor.set(0,0);
-        }
-    }
-
-    private void checkBomBangSize() {
-        ItemBomBangSize itemBomBangSize = GameObject.findIntersected(ItemBomBangSize.class,this.boxCollider);
-        if(itemBomBangSize !=null){
-            itemBomBangSize.destroy();
-            this.bomSize++;
-        }
-    }
-
-    private void bom() {
-        if (GameWindow.isFirePress) {
-            Bom bom = GameObject.recycle(Bom.class);
-            bom.position.set(this.position);
-            bom.anchor.set(0, 0);
-            this.nextBom.reset();
         }
     }
     private void setDirection() {
@@ -148,7 +160,7 @@ public class Player extends GameObjectPhysics {
         } else if (this.direction == Settings.RIGHT) {
             aheadPosition = this.position.add(Settings.WAY_SIZE, 0);
         } else if (this.direction == Settings.LEFT) {
-            aheadPosition = this.position.add(-Settings.WAY_SIZE, 0);
+            aheadPosition = this.position.add(-Settings.WAY_SIZE,0);
         } else if (this.direction == Settings.BOT) {
             aheadPosition = this.position.add(0, Settings.WAY_SIZE);
         }

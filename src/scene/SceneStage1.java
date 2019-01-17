@@ -8,13 +8,18 @@ import game.background.Background;
 import game.bom.ItemBomBangSize;
 import game.box.BoxStone;
 import game.box.BoxWood;
+import tklibs.AudioUtils;
 
+import javax.sound.sampled.Clip;
 import java.io.*;
 import java.util.ArrayList;
 
 public class SceneStage1 extends Scene {
+    Clip backgroundSound;
     @Override
     public void init() {
+        this.backgroundSound = AudioUtils.loadSound("assets/music/menu.wav");
+        this.backgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
         GameObject.recycle(Background.class);
         insertFromFile();
     }
@@ -95,6 +100,7 @@ public class SceneStage1 extends Scene {
     }
     @Override
     public void clear(){
+        this.backgroundSound.stop();
         GameObject.clearAll();
     }
 

@@ -63,6 +63,18 @@ public class GameObject {
             }
         }
     }
+    public static <E extends GameObject> E findCoincide(Class<E> clazz,Vector2D position){
+        for(int i=0;i<gameObjects.size();i++){
+            GameObject object=gameObjects.get(i);
+            if(clazz.isAssignableFrom(object.getClass())
+                    &&object.active
+                    &&object.position.equals(position)
+            ){
+                return (E)object;
+            }
+        }
+        return null;
+    }
     public static <E extends GameObject> E recycle(Class<E> clazz){
         E find= findInactive(clazz);
         if(find!=null){

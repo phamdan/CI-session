@@ -5,17 +5,21 @@ import game.box.BoxStone;
 import game.box.BoxWood;
 import game.player.Player;
 import game.renderer.SingleImageRenderer;
+import tklibs.AudioUtils;
 import tklibs.SpriteUtils;
 
+import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 
 public class Bom extends GameObjectPhysics {
     FrameCounter bomCounter;
+    Clip bombom;
     public static int BomBangBangSize;
     public Bom(){
         super();
         this.createRenderer();
         this.bomCounter=new FrameCounter(100);
+
     }
 
     @Override
@@ -25,12 +29,15 @@ public class Bom extends GameObjectPhysics {
             this.bomBang();
             this.bomCounter.reset();
         }
+
     }
 
     private void bomBang() {
         this.destroy();
+        this.bombom = AudioUtils.loadSound("assets/music/bomb_bang.wav");
+        AudioUtils.replay(this.bombom);
+        Player.quantityBomb++;
         this.bomBangBang();
-
     }
 
     private void bomBangBang() {
@@ -94,6 +101,7 @@ public class Bom extends GameObjectPhysics {
                 bombBangDown.anchor.set(0, 0);
             }
         }
+
     }
     private int checkBoxStoneUp(int i){
         Vector2D aheadPositionUp = null;

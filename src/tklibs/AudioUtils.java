@@ -30,7 +30,10 @@ public class AudioUtils {
         }
         return  null;
     }
-
+    public static void replay(Clip clip) {
+        clip.setFramePosition(0);
+        clip.start();
+    }
 //    public static void initialize() {
 //        new javafx.embed.swing.JFXPanel();
 //    }

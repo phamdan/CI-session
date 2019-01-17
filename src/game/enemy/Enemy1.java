@@ -7,8 +7,10 @@ import game.box.BoxWood;
 import game.player.PlayerDie;
 import game.renderer.SingleImageRenderer;
 import physics.BoxCollider;
+import tklibs.AudioUtils;
 import tklibs.SpriteUtils;
 
+import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -17,6 +19,7 @@ public class Enemy1 extends GameObjectPhysics {
     int direction;
     FrameCounter moveCounter;
     FrameCounter randomCouter;
+    Clip die;
     public Enemy1(){
         super();
         this.createRenderer();
@@ -46,6 +49,8 @@ public class Enemy1 extends GameObjectPhysics {
         BombBangUp bombBangUp= GameObject.findIntersected(BombBangUp.class,this.boxCollider);
         BombBangDown bombBangDown= GameObject.findIntersected(BombBangDown.class,this.boxCollider);
         if(bombBangRight!=null||bombBangLeft!=null||bombBangDown!=null||bombBangUp!=null){
+            this.die= AudioUtils.loadSound("assets/music/monster_die.wav");
+            AudioUtils.replay(this.die);
             this.destroy();
         }
     }
@@ -97,7 +102,7 @@ public class Enemy1 extends GameObjectPhysics {
                 }
                 else {
                         this.direction = (int) (Math.random() * 4) + 1;
-                        System.out.println(this.direction);
+                        //System.out.println(this.direction);
 
                 }
             }
