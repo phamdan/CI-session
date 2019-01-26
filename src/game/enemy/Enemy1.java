@@ -4,6 +4,7 @@ import game.*;
 import game.bom.*;
 import game.box.BoxStone;
 import game.box.BoxWood;
+import game.player.Player;
 import game.player.PlayerDie;
 import game.renderer.SingleImageRenderer;
 import physics.BoxCollider;
@@ -25,7 +26,7 @@ public class Enemy1 extends GameObjectPhysics {
         this.createRenderer();
         this.direction= Settings.LEFT;
         this.boxCollider=new BoxCollider(this.position,this.anchor,40,40);
-        this.moveCounter=new FrameCounter(10);
+        this.moveCounter=new FrameCounter(30);
         this.randomCouter=new FrameCounter(130);
     }
 
@@ -44,13 +45,17 @@ public class Enemy1 extends GameObjectPhysics {
     }
 
     private void enemyDie() {
-        BombBangRight bombBangRight= GameObject.findIntersected(BombBangRight.class,this.boxCollider);
-        BombBangLeft bombBangLeft= GameObject.findIntersected(BombBangLeft.class,this.boxCollider);
-        BombBangUp bombBangUp= GameObject.findIntersected(BombBangUp.class,this.boxCollider);
-        BombBangDown bombBangDown= GameObject.findIntersected(BombBangDown.class,this.boxCollider);
-        if(bombBangRight!=null||bombBangLeft!=null||bombBangDown!=null||bombBangUp!=null){
+
+        ArrayList<BombBangRight> bombBangRights=GameObject.findIntersecteds(BombBangRight.class,this.boxCollider);
+        ArrayList<BombBangLeft> bombBangLefts=GameObject.findIntersecteds(BombBangLeft.class,this.boxCollider);
+        ArrayList<BombBangUp> bombBangUps=GameObject.findIntersecteds(BombBangUp.class,this.boxCollider);
+        ArrayList<BombBangDown> bombBangDowns=GameObject.findIntersecteds(BombBangDown.class,this.boxCollider);
+
+        if(bombBangRights.size()>=1||bombBangLefts.size()>=1||bombBangUps.size()>=1||bombBangDowns.size()>=1){
             this.die= AudioUtils.loadSound("assets/music/monster_die.wav");
             AudioUtils.replay(this.die);
+            Player.enemyCount--;
+            if(Player.enemyCount==0)System.out.println("wwin");
             this.destroy();
         }
     }
@@ -102,7 +107,6 @@ public class Enemy1 extends GameObjectPhysics {
                 }
                 else {
                         this.direction = (int) (Math.random() * 4) + 1;
-                        //System.out.println(this.direction);
 
                 }
             }
@@ -124,7 +128,20 @@ public class Enemy1 extends GameObjectPhysics {
         BoxWood boxWood= GameObject.findByPosition(BoxWood.class, aheadPosition);
         BoxStone boxStone=GameObject.findByPosition(BoxStone.class,aheadPosition);
         Bom bom=GameObject.findByPosition(Bom.class,aheadPosition);
-        if(boxWood!=null||boxStone!=null||bom!=null) return false;
+        Enemy1 enemy1=new Enemy1();
+        enemy1.position.set(this.position);
+        BombBangDown bombBangDown=GameObject.findIntersected(BombBangDown.class,enemy1.boxCollider);
+        BombBangUp bombBangUp=GameObject.findIntersected(BombBangUp.class,enemy1.boxCollider);
+        BombBangLeft bombBangLeft=GameObject.findIntersected(BombBangLeft.class,enemy1.boxCollider);
+        BombBangRight bombBangRight=GameObject.findIntersected(BombBangRight.class,enemy1.boxCollider);
+        if(boxWood!=null
+                ||boxStone!=null
+                ||bom!=null
+                ||bombBangDown!=null
+                ||bombBangUp!=null
+                ||bombBangLeft!=null
+                ||bombBangRight!=null
+                ) return false;
         return true;
     }
 }

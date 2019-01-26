@@ -32,6 +32,7 @@ public class Rectangle {
      * giao với hình chữ nhật truyền vào (other)
      * @return false: nếu 2 hình chữ nhật ko giao nhau
      */
+
     public boolean intersects(Rectangle other) {
         // TODO: 1. Triển khai phần code kiểm tra va chạm giữa 2 hình chữ nhật ở đây
 //        int distSubX = Math.abs((int)((this.position.x + (this.width/2)) - (other.position.x + (other.width)/2)));

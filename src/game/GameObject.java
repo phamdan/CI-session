@@ -1,6 +1,7 @@
 package game;
 
 import game.box.BoxWood;
+import game.player.Player;
 import game.renderer.Renderer;
 import physics.BoxCollider;
 import physics.Physics;
@@ -42,6 +43,21 @@ public class GameObject {
         }
         return null;
     }
+    public static  <E extends GameObject> ArrayList<E> findIntersecteds(Class<E> clazz,BoxCollider boxCollider){
+        ArrayList<E> objects = new ArrayList<>();
+        for (int i = 0; i <gameObjects.size() ; i++) {
+            GameObject object = gameObjects.get(i);
+            if(clazz.isAssignableFrom(object.getClass())// object instanceof clazz
+                    && object instanceof Physics
+                    //cast object thanh physics roi kiem tra object.getBoxCollider giao voi boxCollider
+                    &&((Physics) object).getBoxCollider().intersects(boxCollider)
+                    && object.active
+            ){
+                objects.add((E)object);
+            }
+        }
+        return objects;
+    }
     public static <E extends GameObject> E findByPosition(Class<E> clazz, Vector2D position) {
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject object = gameObjects.get(i);
@@ -62,6 +78,30 @@ public class GameObject {
                 System.out.println(object.position.x+":"+object.position.y);
             }
         }
+    }
+    public static <E extends GameObject>E checkPostionX(Class<E> clazz,Vector2D position) {
+        for(int i=0;i<gameObjects.size();i++){
+            GameObject object=gameObjects.get(i);
+            if(clazz.isAssignableFrom(object.getClass())
+                    &&object.active
+                    &&(object.position.x==position.x)
+            ){
+                return (E)object;
+            }
+        }
+        return null;
+    }
+    public static <E extends GameObject>E checkPostionY(Class<E> clazz,Vector2D position) {
+        for(int i=0;i<gameObjects.size();i++){
+            GameObject object=gameObjects.get(i);
+            if(clazz.isAssignableFrom(object.getClass())
+                    &&object.active
+                    &&(object.position.y==position.y)
+            ){
+                return (E)object;
+            }
+        }
+        return null;
     }
     public static <E extends GameObject> E findCoincide(Class<E> clazz,Vector2D position){
         for(int i=0;i<gameObjects.size();i++){
@@ -124,6 +164,8 @@ public class GameObject {
         this.velocity=new Vector2D();
         this.active=true;
     }
+
+
     //logic
     public void run() {
         this.position.addThis(this.velocity);

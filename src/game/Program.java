@@ -11,7 +11,7 @@ public class Program {
         GameCanvas gameCanvas = new GameCanvas();
 
 //        gameCanvas.setSize(800, 600);
-        gameCanvas.setPreferredSize(new Dimension(800, 600));
+        gameCanvas.setPreferredSize(new Dimension(765, 585));
         gameWindow.add(gameCanvas);
         gameWindow.pack();
         gameWindow.setVisible(true);

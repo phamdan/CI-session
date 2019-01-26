@@ -14,6 +14,7 @@ import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 
 public class Player extends GameObjectPhysics {
+    public static int enemyCount;
     public static int bomSize;
     public  static int quantityBomb;
     int direction; // 1 = top, 2 = right, 3 = bot, 4 = left, 0 = stay
@@ -31,6 +32,7 @@ public class Player extends GameObjectPhysics {
         this.nextBom=new FrameCounter(12);
         this.bomSize=1;
         quantityBomb=1;
+        enemyCount=1;
     }
 
     private void createRenderer() {

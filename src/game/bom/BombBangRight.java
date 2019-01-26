@@ -19,7 +19,7 @@ public class BombBangRight extends GameObjectPhysics {
         super();
         this.createRenderer();
         this.limitTime=new FrameCounter(10);
-        this.boxCollider= new BoxCollider(this.position,this.anchor,60,30);
+        this.boxCollider= new BoxCollider(this.position,this.anchor,85,40);
     }
 
     private void createRenderer() {

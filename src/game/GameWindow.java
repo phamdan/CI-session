@@ -1,8 +1,11 @@
 package game;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameWindow extends JFrame {
     public static boolean isUpPress;
@@ -11,6 +14,11 @@ public class GameWindow extends JFrame {
     public static boolean isRightPress;
     public static boolean isFirePress;
     public static boolean isAnyKeyPress;
+
+    public static void mouseClick(Vector2D mousePosition) {
+        System.out.println("clicked" + mousePosition);
+    }
+
     public GameWindow(){
         this.setTitle("Touhou");
 //        this.setSize(800, 600);
@@ -55,6 +63,15 @@ public class GameWindow extends JFrame {
                 if(e.getKeyCode() == KeyEvent.VK_SPACE) {
                     isFirePress = false;
                 }
+            }
+        });
+        GameWindow window = this;
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Vector2D mousePosition = new Vector2D(e.getX() - window.getInsets().left
+                        , e.getY() - window.getInsets().top);
+                mouseClick(mousePosition);
             }
         });
     }
